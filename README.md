@@ -1,2 +1,2 @@
 # Informant
-Displays information about your network
+Displays information about your network.
