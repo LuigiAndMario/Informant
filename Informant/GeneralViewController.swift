@@ -17,8 +17,8 @@ class GeneralViewController: NSViewController {
     @IBOutlet weak var IPAddress: NSTextField!
     @IBOutlet weak var MACLabel: NSTextField!
     @IBOutlet weak var MACField: NSTextField!
-    @IBOutlet weak var interfaceField: NSTextField!
-    @IBOutlet weak var interface: NSTextField!
+    
+    let interfaceName: String = "en0"
 
     // MARK:- Initialisation
     
@@ -26,18 +26,14 @@ class GeneralViewController: NSViewController {
         super.viewDidLoad()
 
         // Filling the fields.
-        let interfaceName: String = "en0" // To be changed later.
-        let fullOutput: Array = shell("/bin/bash", "ifconfig -a").components(separatedBy: " ")
-        
-        for i in 0 ..< fullOutput.count {
-            if fullOutput[i].range(of: interfaceName) != nil {
-                IPAddress.stringValue = fullOutput[i + 13]
-                MACField.stringValue = fullOutput[i + 4]
+        let outputAsArray: Array = bash("ifconfig -a").components(separatedBy: " ")
+        for i in 0 ..< outputAsArray.count {
+            if outputAsArray[i].range(of: interfaceName) != nil {
+                IPAddress.stringValue = outputAsArray[i + 13]
+                MACField.stringValue = outputAsArray[i + 4]
                 break
             }
         }
-        
-        interface.stringValue = interfaceName
     }
 
     override var representedObject: Any? {
@@ -46,11 +42,11 @@ class GeneralViewController: NSViewController {
         }
     }
     
-    //MARK:- Other functions
+    // MARK:- Bash command issuing
     
-    func shell(_ launchPath: String, _ arguments: String) -> String {
+    func bash(_ arguments: String) -> String {
         let task = Process()
-        task.launchPath = launchPath
+        task.launchPath = "/bin/bash"
         task.arguments = ["-c"] + [arguments]
         
         let pipe = Pipe()
