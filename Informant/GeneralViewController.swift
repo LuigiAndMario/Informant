@@ -8,6 +8,7 @@
 
 import Cocoa
 import Foundation
+import Python
 
 class GeneralViewController: NSViewController {
     
@@ -21,6 +22,12 @@ class GeneralViewController: NSViewController {
     @IBOutlet weak var MACLabel: NSTextField!
     @IBOutlet weak var MACAddress: NSTextField!
     
+    @IBOutlet weak var scanButton: NSButton!
+    @IBAction func scanRequested(_ sender: NSButton) {
+        scan()
+    }
+    
+    
     // MARK: Actions
     @IBAction func changeInterface(_ sender: NSPopUpButton) {
         refresh()
@@ -31,13 +38,6 @@ class GeneralViewController: NSViewController {
     let defaultMAC: String = "<None> (this interface doesn't have a MAC)"
 
     // MARK:- Initialisation
-    
-    override func viewDidAppear() {
-        super.viewDidAppear()
-        
-        // Changing the window title.
-        self.view.window?.title = "Informant"
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,7 +76,7 @@ class GeneralViewController: NSViewController {
         var outputForInterface = outputAsArray.drop(while: { !isInterface($0, interfaceName) }).dropFirst()
         outputForInterface = outputForInterface.prefix(while: { !isInterface($0) })
         
-        
+        // Setting the default values for the IP and the MAC addresses
         IPAddress.stringValue = defaultIP
         MACAddress.stringValue = defaultMAC
         
@@ -113,23 +113,67 @@ class GeneralViewController: NSViewController {
         return value.range(of: ref + ":") != nil
     }
     
-    // MARK:- Bash command issuing
+    func scan() {
+        let popup: NSAlert = NSAlert()
+        
+        popup.messageText = python("Arpy", "py", "en0", "192.168.0.0/24") ?? "An error occured."
+        
+        popup.alertStyle = NSAlertStyle.warning
+        popup.addButton(withTitle: "OK")
+        
+        popup.runModal()
+    }
+    
+    // MARK:- Command issuing
     
     /// Allows to issue a bash command and returns its output as a string
     func bash(_ arguments: String) -> String {
-        let task = Process()
-        task.launchPath = "/bin/bash"
-        task.arguments = ["-c"] + [arguments]
+        let process = Process()
+        process.launchPath = "/bin/bash"
+        process.arguments = ["-c"] + [arguments]
         
         let pipe = Pipe()
-        task.standardOutput = pipe
-        task.launch()
+        process.standardOutput = pipe
+        process.launch()
         
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         
         return NSString(data: data, encoding: String.Encoding.utf8.rawValue)! as String
     }
 
+    func python(_ name: String, _ ext: String, _ args: String...) -> String? {
+        guard let scriptPath = Bundle.main.path(forResource: name, ofType: ext) else {
+            return nil
+        }
+        
+        var arguments = [scriptPath]
+        for arg in args {
+            arguments.append(arg)
+        }
+        
+        let out = Pipe()
+        let err = Pipe()
+        let process = Process()
+        
+        process.launchPath = "/usr/bin/python"
+        process.arguments = arguments
+        process.standardInput = Pipe()
+        process.standardOutput = out
+        process.standardError = err
+        process.launch()
+        
+        
+        let data = out.fileHandleForReading.readDataToEndOfFile()
+        process.waitUntilExit()
+        
+        let exitCode = process.terminationStatus
+        if (exitCode != 0) {
+            print("ERROR: \(exitCode)")
+            return nil
+        }
+        
+        return String(data: data, encoding: String.Encoding.ascii)
+    }
 
 }
 
