@@ -706,7 +706,7 @@
                                                     </textField>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AlT-ea-slb">
                                                         <rect key="frame" x="114" y="0.0" width="24" height="17"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="$IP" id="FI6-ym-ZPK">
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="$IP" placeholderString="_/_/_/_" id="FI6-ym-ZPK">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -735,7 +735,7 @@
                                                     </textField>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JPJ-oY-nwI">
                                                         <rect key="frame" x="132" y="0.0" width="42" height="17"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="$MAC" id="cy0-My-2Kr">
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="$MAC" placeholderString="_:_:_:_:_:_" id="cy0-My-2Kr">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -778,7 +778,7 @@
                     <connections>
                         <outlet property="IPAddress" destination="AlT-ea-slb" id="bDS-eK-I1P"/>
                         <outlet property="IPLabel" destination="ypE-2T-fBM" id="6k1-gm-qhi"/>
-                        <outlet property="MACField" destination="JPJ-oY-nwI" id="MLw-A4-GdN"/>
+                        <outlet property="MACAddress" destination="JPJ-oY-nwI" id="yqu-SM-IMX"/>
                         <outlet property="MACLabel" destination="vgZ-IG-fj7" id="bO7-wA-MYy"/>
                     </connections>
                 </viewController>

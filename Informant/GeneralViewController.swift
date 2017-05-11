@@ -16,7 +16,7 @@ class GeneralViewController: NSViewController {
     @IBOutlet weak var IPLabel: NSTextField!
     @IBOutlet weak var IPAddress: NSTextField!
     @IBOutlet weak var MACLabel: NSTextField!
-    @IBOutlet weak var MACField: NSTextField!
+    @IBOutlet weak var MACAddress: NSTextField!
     
     let interfaceName: String = "en0"
 
@@ -25,13 +25,29 @@ class GeneralViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Filling the fields.
+        // Finding the IP and MAC addresses.
         let outputAsArray: Array = bash("ifconfig -a").components(separatedBy: " ")
+        var isAtInterface = false
+        var hasMAC = false
+        var hasIP = false
+        
         for i in 0 ..< outputAsArray.count {
-            if outputAsArray[i].range(of: interfaceName) != nil {
-                IPAddress.stringValue = outputAsArray[i + 13]
-                MACField.stringValue = outputAsArray[i + 4]
-                break
+            if isAtInterface {
+                if outputAsArray[i].range(of: "ether") != nil {
+                    // MAC address
+                    MACAddress.stringValue = outputAsArray[i + 1];
+                    hasMAC = true
+                } else if outputAsArray[i].range(of: "inet6") == nil && outputAsArray[i].range(of: "inet") != nil {
+                    // IP address
+                    IPAddress.stringValue = outputAsArray[i + 1]
+                    hasIP = true
+                }
+                
+                if hasMAC && hasIP {
+                    break
+                }
+            } else if outputAsArray[i].range(of: interfaceName) != nil {
+                isAtInterface = true
             }
         }
     }
