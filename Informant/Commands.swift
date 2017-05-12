@@ -10,7 +10,7 @@ import Foundation
 
 // MARK: Command issuing
 
-/// Allows to issue a bash command and returns its output as a string
+/// Allows to issue a bash command and returns its output as a string.
 func bash(_ arguments: String) -> String {
     let process = Process()
     process.launchPath = "/bin/bash"
@@ -25,6 +25,7 @@ func bash(_ arguments: String) -> String {
     return NSString(data: data, encoding: String.Encoding.utf8.rawValue)! as String
 }
 
+/// Allows to run a python program and returns its output as a string.
 func python(_ name: String, _ ext: String, _ args: String...) -> String? {
     guard let scriptPath = Bundle.main.path(forResource: name, ofType: ext) else {
         return nil

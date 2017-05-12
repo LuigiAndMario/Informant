@@ -71,7 +71,7 @@ private func isInterface(_ value: String, _ ref: String) -> Bool {
 
 // MARK: Network Analysis
 
-/// Scans the network for every IP addresses (and their corresponding MAC)
+/// Scans the network for every IP addresses (and their corresponding MAC).
 func scan(IP: String, mask: String, populate viewController: GeneralViewController) {
     // Setting the visibility of the addresses fields.
     viewController.MACAddressesFieldTitle.isHidden = true
@@ -112,6 +112,7 @@ func scan(IP: String, mask: String, populate viewController: GeneralViewControll
     popup.runModal()
 }
 
+/// Pings google.com and displays the time it took.
 func ping(_ viewController: GeneralViewController) {
     viewController.PingResult.isHidden = false
     viewController.PingResult.stringValue = bash("ping -c 1 " + pingAddress) // taking the output of the ping.
@@ -120,6 +121,7 @@ func ping(_ viewController: GeneralViewController) {
         + " ms."
 }
 
+/// Looks up basic informations on an IP address.
 func lookup(_ address: String) {
     if (address == "") {
         return
