@@ -49,8 +49,8 @@ func refresh(_ viewController: GeneralViewController) {
 }
 
 /// Returns true if the the parameter represents an interface.
-private func isInterface(_ value: String, of: GeneralViewController) -> Bool {
-    for interface in of.interfaceSelector.itemTitles {
+private func isInterface(_ value: String, of viewController: GeneralViewController) -> Bool {
+    for interface in viewController.interfaceSelector.itemTitles {
         if isInterface(value, interface) {
             return true
         }
@@ -67,10 +67,40 @@ private func isInterface(_ value: String, _ ref: String) -> Bool {
 
 // MARK: Network Analysis
 
-func scan(IP: String, mask: String) {
+/// Scans the network for every IP addresses (and their corresponding MAC)
+func scan(IP: String, mask: String, populate viewController: GeneralViewController) {
+    // Setting the visibility of the addresses fields.
+    viewController.MACAddressesFieldTitle.isHidden = true
+    viewController.MACAddresses.enclosingScrollView?.isHidden = true
+    viewController.IPAddressesFieldTitle.isHidden = true
+    viewController.IPAddresses.enclosingScrollView?.isHidden = true
+    
     let popup: NSAlert = NSAlert()
     
-    popup.messageText = python("Arpy", "py", "en0", IP + mask) ?? "An error occured."
+    if let scanResult = python("Arpy", "py", "en0", IP + mask) {
+        var separated = scanResult.components(separatedBy: "\n")
+        popup.messageText = separated[1] + separated[2]
+        
+        separated = separated.dropFirst(4).dropLast().flatMap( {$0.components(separatedBy: " ")} )
+        
+        // Setting the visibility of the addresses fields.
+        viewController.MACAddressesFieldTitle.isHidden = false
+        viewController.MACAddresses.enclosingScrollView?.isHidden = false
+        viewController.IPAddressesFieldTitle.isHidden = false
+        viewController.IPAddresses.enclosingScrollView?.isHidden = false
+        
+        // Filling the fields
+        var index: Int = 1
+        for i in separated.startIndex ..< separated.endIndex {
+            if (i % 2 == 0) {
+                viewController.MACAddresses.textStorage?.append(NSAttributedString(string: String(index) + ": " + separated[i] + "\r\n"))
+                viewController.IPAddresses.textStorage?.append(NSAttributedString(string: String(index) + ": " + separated[i + 1] + "\r\n"))
+                index += 1
+            }
+        }
+    } else {
+        popup.messageText = "An error occured."
+    }
     
     popup.alertStyle = NSAlertStyle.warning
     popup.addButton(withTitle: "OK")

@@ -24,6 +24,6 @@ print "Scanning went down with %d answer(s) and %d packet(s) dropped.\n" \
     %(len(answered), len(unanswered))
 
 for sender, receiver in answered:
-    print receiver.sprintf(r"%Ether.src% - %ARP.psrc%")
+    print receiver.sprintf(r"%Ether.src% %ARP.psrc%")
 
 exit(0)

@@ -26,21 +26,35 @@ class GeneralViewController: NSViewController {
     
     @IBOutlet weak var scanButton: NSButton!
     @IBAction func scanRequested(_ sender: NSButton) {
-        scan(IP: IPAddress.stringValue, mask: mask)
+        scan(IP: IPAddress.stringValue, mask: mask, populate: self)
     }
     
-    
+    // Scan results fields
+    @IBOutlet weak var MACAddressesFieldTitle: NSTextField!
+    @IBOutlet weak var MACAddresses: NSTextView!
+    @IBOutlet weak var IPAddressesFieldTitle: NSTextField!
+    @IBOutlet weak var IPAddresses: NSTextView!
     
     
     // MARK: Actions
+    
     @IBAction func changeInterface(_ sender: NSPopUpButton) {
         refresh(self)
     }
-
+    
     // MARK:- Initialisation
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Setting the visibility and editability of the scan results fields.
+        MACAddressesFieldTitle.isHidden = true
+        MACAddresses.enclosingScrollView?.isHidden = true
+        MACAddresses.isEditable = false
+        
+        IPAddressesFieldTitle.isHidden = true
+        IPAddresses.enclosingScrollView?.isHidden = true
+        IPAddresses.isEditable = false
         
         // Filling the interface menu.
         interfaceSelector.removeAllItems()
