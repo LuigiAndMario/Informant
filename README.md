@@ -1,4 +1,4 @@
-# Informant
+# Informant ![Travis](https://travis-ci.org/LuigiAndMario/Informant.svg?branch=master)
 Displays information about your network, and allows you to scan for IP and MAC addresses.
 
 ## Network Scanner
