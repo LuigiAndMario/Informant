@@ -47,6 +47,13 @@ class GeneralViewController: NSViewController {
     }
     @IBOutlet weak var PingResult: NSTextField!
     
+    // MARK: Lookup
+    @IBOutlet weak var IPAddressForLookup: NSTextField!
+    @IBOutlet weak var LookupButton: NSButton!
+    @IBAction func lookupRequested(_ sender: NSButton) {
+        lookup(IPAddressForLookup.stringValue)
+    }
+    
     
     // MARK:- Initialisation
     
@@ -74,8 +81,9 @@ class GeneralViewController: NSViewController {
         IPAddresses.enclosingScrollView?.isHidden = true
         IPAddresses.isEditable = false
         
-        // Setting the visibility of the ping button
+        // Setting the visibility of the ping button.
         PingResult.isHidden = true
+        
     }
 
     override var representedObject: Any? {

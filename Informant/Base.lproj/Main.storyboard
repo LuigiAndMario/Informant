@@ -735,7 +735,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="188" height="42"/>
                                         <subviews>
                                             <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jge-y5-5L9">
-                                                <rect key="frame" x="0.0" y="25" width="153" height="17"/>
+                                                <rect key="frame" x="0.0" y="25" width="151" height="17"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ypE-2T-fBM">
                                                         <rect key="frame" x="-2" y="0.0" width="112" height="17"/>
@@ -746,8 +746,8 @@
                                                         </textFieldCell>
                                                     </textField>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AlT-ea-slb">
-                                                        <rect key="frame" x="114" y="0.0" width="41" height="17"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="_/_/_/_" placeholderString="_/_/_/_" id="FI6-ym-ZPK">
+                                                        <rect key="frame" x="114" y="0.0" width="39" height="17"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="_._._._" placeholderString="_/_/_/_" id="FI6-ym-ZPK">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1016,24 +1016,64 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
+                            <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kij-80-kr9">
+                                <rect key="frame" x="397" y="227" width="283" height="22"/>
+                                <subviews>
+                                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PCM-4E-o7M">
+                                        <rect key="frame" x="0.0" y="0.0" width="143" height="22"/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="_._._._" drawsBackground="YES" usesSingleLineMode="YES" id="avl-b6-R92">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XEE-77-E4u">
+                                        <rect key="frame" x="145" y="-6" width="144" height="32"/>
+                                        <buttonCell key="cell" type="push" title="Perform a lookup" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4YV-Su-fLk">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="lookupRequested:" target="XfG-lQ-9wD" id="mbE-0n-GpX"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="XEE-77-E4u" firstAttribute="leading" secondItem="PCM-4E-o7M" secondAttribute="trailing" constant="8" id="1M0-3x-A1c"/>
+                                    <constraint firstItem="PCM-4E-o7M" firstAttribute="leading" secondItem="Kij-80-kr9" secondAttribute="leading" id="dqb-IX-Dhr"/>
+                                </constraints>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
                         </subviews>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Kij-80-kr9" secondAttribute="trailing" constant="20" id="Bt5-ak-Cse"/>
                             <constraint firstItem="GzT-Zg-EGZ" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="FEH-t7-mAk"/>
                             <constraint firstItem="T6E-0B-5zk" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="HHY-ax-MRR"/>
                             <constraint firstItem="AdZ-nW-Hc6" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="KTy-Od-6ZH"/>
                             <constraint firstItem="GzT-Zg-EGZ" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="KaA-IH-dRQ"/>
                             <constraint firstItem="dZL-Ar-axU" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="R6a-kK-QeS"/>
+                            <constraint firstItem="Kij-80-kr9" firstAttribute="top" secondItem="T6E-0B-5zk" secondAttribute="bottom" constant="8" id="XY8-N9-bXO"/>
                             <constraint firstAttribute="bottom" secondItem="T6E-0B-5zk" secondAttribute="bottom" constant="257" id="YsY-mo-jfh"/>
                             <constraint firstAttribute="trailing" secondItem="T6E-0B-5zk" secondAttribute="trailing" constant="20" id="ZD4-eB-vTq"/>
                             <constraint firstItem="dZL-Ar-axU" firstAttribute="top" secondItem="GzT-Zg-EGZ" secondAttribute="bottom" constant="33" id="ua6-u9-mqY"/>
                             <constraint firstItem="AdZ-nW-Hc6" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="w8s-uV-d6T"/>
+                            <constraint firstItem="Kij-80-kr9" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="397" id="wcj-1c-U4t"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="IPAddress" destination="AlT-ea-slb" id="bDS-eK-I1P"/>
+                        <outlet property="IPAddressForLookup" destination="PCM-4E-o7M" id="Bf0-tg-m2m"/>
                         <outlet property="IPAddresses" destination="80Z-bC-8aT" id="2qu-t9-aab"/>
                         <outlet property="IPAddressesFieldTitle" destination="hoT-4I-Xr5" id="mho-SA-4H9"/>
                         <outlet property="IPLabel" destination="ypE-2T-fBM" id="6k1-gm-qhi"/>
+                        <outlet property="LookupButton" destination="XEE-77-E4u" id="ScR-Ic-GmI"/>
                         <outlet property="MACAddress" destination="JPJ-oY-nwI" id="yqu-SM-IMX"/>
                         <outlet property="MACAddresses" destination="SWz-9H-aMW" id="jgr-Yr-Lyv"/>
                         <outlet property="MACAddressesFieldTitle" destination="djE-fH-gUe" id="yp1-3u-vIz"/>

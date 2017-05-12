@@ -119,3 +119,51 @@ func ping(_ viewController: GeneralViewController) {
         .components(separatedBy: "=")[1] // Removing the string "time".
         + " ms."
 }
+
+func lookup(_ address: String) {
+    if (address == "") {
+        return
+    } else {
+        let popup: NSAlert = NSAlert()
+        let result = bash("nslookup " + address).components(separatedBy: "\n").filter { $0 != "" }
+        
+        if result[0].range(of: "SERVFAIL") != nil {
+            // An error occured.
+            popup.messageText = "Please enter a valid IP address."
+        } else {
+            var server = result.filter { $0.range(of: "Server") != nil }
+            if !server.isEmpty {
+                server = server[0].components(separatedBy: "\t").filter { $0 != "" }
+            } else {
+                server = ["Server:", "not found."]
+            }
+            
+            var addressWithin = result.filter { $0.range(of: "Address") != nil }
+            if !addressWithin.isEmpty {
+                addressWithin = addressWithin[0].components(separatedBy: "\t").filter { $0 != "" }
+            } else {
+                addressWithin = ["Address:", "not found."]
+            }
+            
+            var name = result.filter { $0.range(of: "name") != nil }
+            if !name.isEmpty {
+                name = name[0].components(separatedBy: "\t")
+                    .filter { $0.range(of: "name") != nil }[0].components(separatedBy: " ").filter { $0 != "=" }
+                name[0] = "Name:"
+            } else {
+                name = ["Name:", "not found."]
+            }
+            
+            popup.messageText = ""
+            popup.messageText += server[0] + " " + server[1] + "\r\n"
+            popup.messageText += addressWithin[0] + " " + addressWithin[1] + "\r\n"
+            popup.messageText += name[0] + " " + name[1]
+        }
+        
+        popup.alertStyle = NSAlertStyle.warning
+        popup.addButton(withTitle: "OK")
+        
+        popup.runModal()
+        
+    }
+}
