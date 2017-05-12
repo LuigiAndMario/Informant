@@ -14,11 +14,16 @@ class GeneralViewController: NSViewController {
     // MARK: Variables and constants
     let mask: String = "/24"
     
-    // MARK: Properties
+    // MARK:- Properties
     
+    // MARK: Interface
     @IBOutlet weak var interfaceLabel: NSTextField!
     @IBOutlet weak var interfaceSelector: NSPopUpButton!
+    @IBAction func changeInterface(_ sender: NSPopUpButton) {
+        refresh(self)
+    }
     
+    // MARK: Addresses
     @IBOutlet weak var IPLabel: NSTextField!
     @IBOutlet weak var IPAddress: NSTextField!
     @IBOutlet weak var MACLabel: NSTextField!
@@ -29,32 +34,24 @@ class GeneralViewController: NSViewController {
         scan(IP: IPAddress.stringValue, mask: mask, populate: self)
     }
     
-    // Scan results fields
+    // MARK: Scan
     @IBOutlet weak var MACAddressesFieldTitle: NSTextField!
     @IBOutlet weak var MACAddresses: NSTextView!
     @IBOutlet weak var IPAddressesFieldTitle: NSTextField!
     @IBOutlet weak var IPAddresses: NSTextView!
     
-    
-    // MARK: Actions
-    
-    @IBAction func changeInterface(_ sender: NSPopUpButton) {
-        refresh(self)
+    // MARK: Ping
+    @IBOutlet weak var PingButton: NSButton!
+    @IBAction func pingRequested(_ sender: NSButton) {
+        ping(self)
     }
+    @IBOutlet weak var PingResult: NSTextField!
+    
     
     // MARK:- Initialisation
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Setting the visibility and editability of the scan results fields.
-        MACAddressesFieldTitle.isHidden = true
-        MACAddresses.enclosingScrollView?.isHidden = true
-        MACAddresses.isEditable = false
-        
-        IPAddressesFieldTitle.isHidden = true
-        IPAddresses.enclosingScrollView?.isHidden = true
-        IPAddresses.isEditable = false
         
         // Filling the interface menu.
         interfaceSelector.removeAllItems()
@@ -67,6 +64,18 @@ class GeneralViewController: NSViewController {
         
         // Getting the IP and MAC addresses.
         refresh(self)
+        
+        // Setting the visibility and editability of the scan results fields.
+        MACAddressesFieldTitle.isHidden = true
+        MACAddresses.enclosingScrollView?.isHidden = true
+        MACAddresses.isEditable = false
+        
+        IPAddressesFieldTitle.isHidden = true
+        IPAddresses.enclosingScrollView?.isHidden = true
+        IPAddresses.isEditable = false
+        
+        // Setting the visibility of the ping button
+        PingResult.isHidden = true
     }
 
     override var representedObject: Any? {

@@ -9,8 +9,12 @@
 import Cocoa
 import Foundation
 
+// MARK: Values
+
 let defaultIP: String = "<None> (interface is down)"
 let defaultMAC: String = "<None> (this interface doesn't have a MAC)"
+
+let pingAddress: String = "www.google.com"
 
 // MARK:- Interface scanning
 
@@ -106,4 +110,12 @@ func scan(IP: String, mask: String, populate viewController: GeneralViewControll
     popup.addButton(withTitle: "OK")
     
     popup.runModal()
+}
+
+func ping(_ viewController: GeneralViewController) {
+    viewController.PingResult.isHidden = false
+    viewController.PingResult.stringValue = bash("ping -c 1 " + pingAddress) // taking the output of the ping.
+        .components(separatedBy: " ").filter { $0.range(of: "time") != nil }[0] // Keeping only the time.
+        .components(separatedBy: "=")[1] // Removing the string "time".
+        + " ms."
 }
